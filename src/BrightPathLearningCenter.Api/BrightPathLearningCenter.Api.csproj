@@ -23,6 +23,7 @@
     </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BrightPathLearningCenter.Api.Domain\BrightPathLearningCenter.Api.Domain.csproj"/>
     <ProjectReference Include="..\BrightPathLearningCenter.Api.Infrastructure\BrightPathLearningCenter.Api.Infrastructure.csproj"/>
   </ItemGroup>
 

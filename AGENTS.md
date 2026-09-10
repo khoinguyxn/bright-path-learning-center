@@ -10,7 +10,7 @@ src/
   BrightPathLearningCenter.Api.Domain/          # Entities, value objects, domain services + interfaces — no framework refs
   BrightPathLearningCenter.Api.Infrastructure/  # EF Core DbContext, external service clients, repositories
 tests/
-  BrightPathLearningCenter.Api.Tests/
+  BrightPathLearningCent[LessonFactory.cs](src/BrightPathLearningCenter.Api.Domain/Services/LessonFactory.cs)er.Api.Tests/
   BrightPathLearningCenter.Api.Domain.Tests/
   BrightPathLearningCenter.Api.Infrastructure.Tests/
 ```
