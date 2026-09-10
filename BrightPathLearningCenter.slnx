@@ -1,3 +1,13 @@
 <Solution>
-  <Project Path="BrightPathLearningCenter.Api\BrightPathLearningCenter.Api.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/BrightPathLearningCenter.Api/BrightPathLearningCenter.Api.csproj"/>
+    <Project Path="src/BrightPathLearningCenter.Api.Domain/BrightPathLearningCenter.Api.Domain.csproj"/>
+    <Project Path="src/BrightPathLearningCenter.Api.Infrastructure/BrightPathLearningCenter.Api.Infrastructure.csproj"/>
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/BrightPathLearningCenter.Api.Tests/BrightPathLearningCenter.Api.Tests.csproj"/>
+    <Project Path="tests/BrightPathLearningCenter.Api.Domain.Tests/BrightPathLearningCenter.Api.Domain.Tests.csproj"/>
+    <Project
+      Path="tests/BrightPathLearningCenter.Api.Infrastructure.Tests/BrightPathLearningCenter.Api.Infrastructure.Tests.csproj"/>
+  </Folder>
 </Solution>

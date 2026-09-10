@@ -1,0 +1,15 @@
+@BrightPathLearningCenter_HostAddress = http://localhost:5217
+
+POST {{BrightPathLearningCenter_HostAddress}}/lessons/
+Content-Type: application/json
+
+{
+  "student": "Le Minh Chau",
+  "tutorId": "T1",
+  "roomId": "R1",
+  "startsAt": "2026-03-11T09:00:00+07:00",
+  "durationMinutes": 60,
+  "note": "new booking"
+}
+
+###

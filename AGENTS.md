@@ -2,21 +2,22 @@
 
 ## Project Overview
 
-BrightPathLearningCenter is a scheduling and conflict-detection tool for a tutoring centre, built on .NET 10 (C# 14) using Minimal APIs with Carter and EF Core 10 (SQLite for local dev) following the Clean Architecture pattern.
+BrightPathLearningCenter is a scheduling and conflict-detection tool for a tutoring centre, built on .NET 10 (C# 14) using Minimal APIs, Fluent Validation, Xunit.v3 @3.2.2, EF Core 10 (SQLite for local dev) following the Clean Architecture pattern.
 
 ```
 src/
-  BrightPathLearningCenter.Api/             # Entry point, endpoints, DI wiring, middleware
-  BrightPathLearningCenter.Domain/          # Entities, value objects, domain logic — no framework refs
-  BrightPathLearningCenter.Infrastructure/  # EF Core DbContext, external service clients, repositories
-  BrightPathLearningCenter.Contracts/       # DTOs / request-response shapes shared with clients
+  BrightPathLearningCenter.Api/             # Entry point, endpoints, DI wiring, middleware, DTOs
+  BrightPathLearningCenter.Api.Domain/          # Entities, value objects, domain services + interfaces — no framework refs
+  BrightPathLearningCenter.Api.Infrastructure/  # EF Core DbContext, external service clients, repositories
 tests/
-  BrightPathLearningCenter.UnitTests/
-  BrightPathLearningCenter.IntegrationTests/
+  BrightPathLearningCenter.Api.Tests/
+  BrightPathLearningCenter.Api.Domain.Tests/
+  BrightPathLearningCenter.Api.Infrastructure.Tests/
 ```
 
 Dependency direction: `Api → Infrastructure → Domain`. Domain never references Infrastructure or Api. If you're adding a `using` that violates this, stop and reconsider the layer.
-
+`Api` needs to reference `Domain` and `Infrastructure`.
+`Infrastructure` needs to reference `BrightPathLearningCenter.Api.Domain`.
 ---
 
 ## Setup Commands
@@ -103,6 +104,7 @@ dotnet ef migrations remove --project src/BrightPathLearningCenter.Infrastructur
 - Don't add a new project/package reference across the Domain → Infrastructure boundary described above.
 - Don't rename or move files outside the scope of the current task — it breaks the diff for the reviewer.
 - Don't touch files under `<generated/ or /obj, /bin>` — regenerate them, don't hand-edit.
+- Always ask for approval before making any of these changes.
 
 ---
 

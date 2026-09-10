@@ -62,3 +62,8 @@ nunit-*.xml
 
 # Mise
 mise.local.toml
+
+# Local SQLite databases
+*.db
+*.db-shm
+*.db-wal
