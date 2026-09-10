@@ -18,6 +18,7 @@ tests/
 Dependency direction: `Api → Infrastructure → Domain`. Domain never references Infrastructure or Api. If you're adding a `using` that violates this, stop and reconsider the layer.
 `Api` needs to reference `Domain` and `Infrastructure`.
 `Infrastructure` needs to reference `BrightPathLearningCenter.Api.Domain`.
+**Repositories are pure data access.** They only read/write entities — no business logic, rule-based filtering, or query shaping beyond retrieval. Return the data and let Domain services apply the rules.
 ---
 
 ## Setup Commands
@@ -63,6 +64,7 @@ dotnet test --filter "FullyQualifiedName~<Namespace>"   # scoped run while itera
 - Async all the way down: no `.Result` / `.Wait()` on a `Task`. Suffix async methods with `Async`.
 - Use `ErrorOr<T>` (or `<your Result type>`) for expected failure paths in the Domain/Application layer; reserve exceptions for actually-exceptional cases.
 - Records for immutable DTOs and value objects; classes for entities with identity.
+- Keep repositories thin: data access only. Filtering, clash detection and any other business rule live in the Domain layer.
 - No magic strings/numbers for business rules — named constants or config, colocated with the rule they express.
 - Match the `.editorconfig` at the repo root; it is the tiebreaker for anything not listed here.
 
