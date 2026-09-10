@@ -4,9 +4,7 @@ namespace BrightPathLearningCenter.Api.Domain.Abstractions;
 
 public interface ILessonRepository
 {
-    Task<IReadOnlyList<Lesson>> FindOverlappingActiveLessonsAsync(
-        Lesson candidate,
-        CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Lesson>> GetAllAsync(CancellationToken cancellationToken = default);
 
     Task<string> NextLessonIdAsync(CancellationToken cancellationToken = default);
 

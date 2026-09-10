@@ -4,6 +4,7 @@ public sealed record Lesson
 {
     public const string IdPrefix = "L";
     public const int IdDigits = 3;
+    public const int MaxDurationMinutes = 24 * 60;
 
     public required string Id { get; init; }
     public required string Student { get; init; }
