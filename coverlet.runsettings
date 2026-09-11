@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>cobertura</Format>
+          <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+          <ExcludeByFile>**/Migrations/*.cs,**/*.Designer.cs,**/*.generated.cs,**/*.g.cs,**/*.g.i.cs</ExcludeByFile>
+          <Exclude>[BrightPathLearningCenter.Api]Microsoft.AspNetCore.OpenApi.Generated,[BrightPathLearningCenter.Api]System.Runtime.CompilerServices</Exclude>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

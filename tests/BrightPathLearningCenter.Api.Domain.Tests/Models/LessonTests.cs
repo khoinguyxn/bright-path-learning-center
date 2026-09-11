@@ -66,4 +66,82 @@ public sealed class LessonTests
         Assert.Equal(lesson.StartsAt, lesson.Slot().Start);
         Assert.Equal(lesson.EndsAt(), lesson.Slot().End);
     }
+
+    [Fact]
+    public void ClashesWith_WhenSharedResourceAndOverlap_ReturnsTrue()
+    {
+        Lesson first = LessonFactory.Create("L001", "A", "T1", "R1", Wednesday9Am, 60);
+        Lesson second = LessonFactory.Create("L002", "B", "T1", "R2", Wednesday9Am, 60);
+
+        Assert.True(first.ClashesWith(second));
+    }
+
+    [Fact]
+    public void ClashesWith_WhenNoSharedResource_ReturnsFalse()
+    {
+        Lesson first = LessonFactory.Create("L001", "A", "T1", "R1", Wednesday9Am, 60);
+        Lesson second = LessonFactory.Create("L002", "B", "T2", "R2", Wednesday9Am, 60);
+
+        Assert.False(first.ClashesWith(second));
+    }
+
+    [Fact]
+    public void ClashesWith_WhenSharedResourceButNoOverlap_ReturnsFalse()
+    {
+        Lesson first = LessonFactory.Create("L001", "A", "T1", "R1", Wednesday9Am, 60);
+        Lesson second = LessonFactory.Create("L002", "B", "T1", "R2", Wednesday9Am.AddHours(2), 60);
+
+        Assert.False(first.ClashesWith(second));
+    }
+
+    [Fact]
+    public void ConflictTypesWith_WhenSharedResourceButNoOverlap_ReturnsEmpty()
+    {
+        Lesson first = LessonFactory.Create("L001", "A", "T1", "R1", Wednesday9Am, 60);
+        Lesson second = LessonFactory.Create("L002", "A", "T1", "R1", Wednesday9Am.AddHours(2), 60);
+
+        Assert.Empty(first.ConflictTypesWith(second));
+    }
+
+    [Fact]
+    public void ConflictTypesWith_WhenEitherLessonCancelled_ReturnsEmpty()
+    {
+        Lesson active = LessonFactory.Create("L001", "A", "T1", "R1", Wednesday9Am, 60);
+        Lesson cancelled = active with { Id = "L002", Status = LessonStatus.Cancelled };
+
+        Assert.Empty(active.ConflictTypesWith(cancelled));
+        Assert.Empty(cancelled.ConflictTypesWith(active));
+    }
+
+    [Fact]
+    public void ConflictTypesWith_WhenOverlappingSharedResources_ReturnsEveryConflictType()
+    {
+        Lesson first = LessonFactory.Create("L001", "A", "T1", "R1", Wednesday9Am, 60);
+        Lesson second = LessonFactory.Create("L002", "A", "T1", "R1", Wednesday9Am, 60);
+
+        Assert.Equal(
+            [ConflictType.StudentDoubleBooked, ConflictType.TutorDoubleBooked, ConflictType.RoomDoubleBooked],
+            first.ConflictTypesWith(second));
+    }
+
+    [Fact]
+    public void NormalizeToUtc_ConvertsOffsetsToZero()
+    {
+        Lesson lesson = new()
+        {
+            Id = "L001",
+            Student = "A",
+            TutorId = "T1",
+            RoomId = "R1",
+            StartsAt = Wednesday9Am,
+            DurationMinutes = 60,
+            CancelledAt = Wednesday9Am.AddHours(-3)
+        };
+
+        Lesson normalized = lesson.NormalizeToUtc();
+
+        Assert.Equal(TimeSpan.Zero, normalized.StartsAt.Offset);
+        Assert.NotNull(normalized.CancelledAt);
+        Assert.Equal(TimeSpan.Zero, normalized.CancelledAt!.Value.Offset);
+    }
 }

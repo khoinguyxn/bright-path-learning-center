@@ -64,6 +64,19 @@ public sealed class LessonRepositoryTests : IDisposable
     }
 
     [Fact]
+    public async Task NextLessonIdAsync_IgnoresIdsThatDoNotMatchThePattern()
+    {
+        CancellationToken cancellationToken = TestContext.Current.CancellationToken;
+        _context.Lessons.Add(Existing("X999"));
+        _context.Lessons.Add(Existing("LAB"));
+        _context.Lessons.Add(Existing("L"));
+        _context.Lessons.Add(Existing("L007"));
+        await _context.SaveChangesAsync(cancellationToken);
+
+        Assert.Equal("L008", await _repository.NextLessonIdAsync(cancellationToken));
+    }
+
+    [Fact]
     public async Task AddAsync_PersistsLessonInUtc()
     {
         CancellationToken cancellationToken = TestContext.Current.CancellationToken;

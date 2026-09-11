@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 using BrightPathLearningCenter.Api.Domain.Abstractions;
 using BrightPathLearningCenter.Api.Infrastructure.Persistence;
 using BrightPathLearningCenter.Api.Infrastructure.Repositories;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BrightPathLearningCenter.Api.Infrastructure;
 
+[ExcludeFromCodeCoverage]
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, string connectionString)

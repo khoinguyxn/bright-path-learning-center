@@ -58,8 +58,9 @@ Changes whether a clash is usually fixable by moving rooms. Affects the error me
 4. **An exam pair counts as two bookings** (consequence of Q1).
 5. **Lessons are atomic** — a clash rejects the whole booking; the cap is per calendar day.
 6. **A move is validated exactly like a create,** keeping its lesson id and writing an audit row. L032 kept its id when it moved to a Monday, which is how the closed-day lesson got in unnoticed.
-7. **All times are Vietnam local (+07:00), single site.**
+7. **All times are Vietnam local (+07:00), single site.** Instants are stored in the database as UTC (offset +00:00); the +07:00 offset is reapplied only at the presentation layer when a response is returned.
 8. **Pre-existing violations still load.** The importer records them rather than refusing. A tool that cannot open Monday's real data is useless on Monday.
+9. **New lessons get a server-generated `L{n}` id.** The client never supplies a lesson id on create; the server assigns the next sequential `L###` value (e.g. `L035` after the seed week's `L034`). Seed rows keep their original ids from the export.
 
 ---
 

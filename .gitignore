@@ -67,3 +67,6 @@ mise.local.toml
 *.db
 *.db-shm
 *.db-wal
+
+# Coverage reports
+coveragereport/

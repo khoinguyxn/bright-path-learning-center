@@ -87,14 +87,25 @@ public sealed class LessonClashDetectorTests
     }
 
     [Fact]
-    public void Detect_IgnoresNonOverlappingLessonsAmongOverlapping()
+    public void Detect_WhenResourcesSharedButSlotsDoNotOverlap_ReturnsEmpty()
     {
-        Lesson nonClashing = Candidate with { Id = "L002", Student = "B", TutorId = "T2", RoomId = "R2" };
-        Lesson clashing = Candidate with { Id = "L003", Student = "B", TutorId = "T1", RoomId = "R3" };
+        Lesson existing = Candidate with { Id = "L002", StartsAt = Wednesday9Am.AddHours(2) };
 
-        LessonClash clash = Assert.Single(LessonClashDetector.Detect(Candidate, [nonClashing, clashing]));
+        Assert.Empty(LessonClashDetector.Detect(Candidate, [existing]));
+    }
 
-        Assert.Equal("L003", clash.Existing.Id);
+    [Fact]
+    public void Detect_AmongMultipleLessons_ReturnsOnlyOverlappingClashes()
+    {
+        Lesson nonOverlapping = Candidate with { Id = "L002", TutorId = "T1", StartsAt = Wednesday9Am.AddHours(2) };
+        Lesson overlappingWithoutSharedResource =
+            Candidate with { Id = "L003", Student = "B", TutorId = "T2", RoomId = "R2" };
+        Lesson clashing = Candidate with { Id = "L004", Student = "B", TutorId = "T1", RoomId = "R3" };
+
+        LessonClash clash = Assert.Single(
+            LessonClashDetector.Detect(Candidate, [nonOverlapping, overlappingWithoutSharedResource, clashing]));
+
+        Assert.Equal("L004", clash.Existing.Id);
     }
 
     [Theory]

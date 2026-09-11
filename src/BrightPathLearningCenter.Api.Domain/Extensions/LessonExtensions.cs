@@ -30,6 +30,11 @@ public static class LessonExtensions
             ArgumentNullException.ThrowIfNull(lesson);
             ArgumentNullException.ThrowIfNull(other);
 
+            if (!lesson.IsActive() || !other.IsActive() || !lesson.Slot().Overlaps(other.Slot()))
+            {
+                return [];
+            }
+
             List<ConflictType> types = new(3);
 
             if (string.Equals(lesson.Student, other.Student, StringComparison.Ordinal))

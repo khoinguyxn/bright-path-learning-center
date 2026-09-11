@@ -13,10 +13,7 @@ public static class LessonClashDetector
         return
         [
             .. from existing in overlappingLessons
-            where candidate != existing &&
-                  candidate.IsActive() &&
-                  existing.IsActive() &&
-                  candidate.Slot().Overlaps(existing.Slot())
+            where candidate != existing
             let types = candidate.ConflictTypesWith(existing)
             where types.Count > 0
             select new LessonClash { Existing = existing, Types = types }
